@@ -1,1 +1,1 @@
-# -OnLab
+# Önálló laboratórium - Szakács Olivér
