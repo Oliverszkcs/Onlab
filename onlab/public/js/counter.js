@@ -10,7 +10,6 @@ const totalFrames = Math.round( animationDuration / frameDuration );
 // An ease-out function that slows the count as it progresses
 const easeOutQuad = t => t * ( 2 - t );
 
-
 const numberWithCommas = n => {
 	return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');	
 }

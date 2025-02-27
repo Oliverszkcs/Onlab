@@ -11,8 +11,6 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.126",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "keycloak-js": "^26.2.0",
@@ -50,6 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@types/keycloak-js": "^3.4.1"
+    "@types/keycloak-js": "^3.4.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4"
   }
 }
