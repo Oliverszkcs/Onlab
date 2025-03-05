@@ -1,13 +1,12 @@
 package org.example.mission_rent_possible.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
+
 
 @Entity(name = "user")
 public class User {
-   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     public var id: Int? = null
 
     private var name: String? = null

@@ -27,4 +27,16 @@ class FileController(private var minioService: MinioService) {
             ResponseEntity.badRequest().body("Upload failed: ${e.message}")
         }
     }
+    @PostMapping("/download")
+    fun downloadFile(@RequestParam("filename") filename: String): ResponseEntity<ByteArray> {
+        return try {
+            val file: ByteArray = minioService.downloadFile(filename)
+            ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=$filename")
+                .body(file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ResponseEntity.badRequest().body(ByteArray(0))
+        }
+    }
 }

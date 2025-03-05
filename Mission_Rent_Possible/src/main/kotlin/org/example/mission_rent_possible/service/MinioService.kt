@@ -25,4 +25,14 @@ class MinioService(
         )
         return "File uploaded successfully: ${file.originalFilename}"
     }
+
+    @Throws(Exception::class)
+    fun downloadFile(filename: String): ByteArray {
+        return minioClient.getObject(
+            io.minio.GetObjectArgs.builder()
+                .bucket(bucketName)
+                .`object`(filename)
+                .build()
+        ).readAllBytes()
+    }
 }

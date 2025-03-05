@@ -6,7 +6,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(private val userRepository: UserRepository)  {
-     fun saveUser(user: User): User {
-        return userRepository.save(user)
+     fun saveUser(user: User) {
+         if(userRepository.findByEmail(user.getEmail().toString()) ==null) {
+             userRepository.save(user)
+         }
+     }
+
+    fun getUserByEmail(email: String): User? {
+        return userRepository.findByEmail(email)
     }
+
 }
