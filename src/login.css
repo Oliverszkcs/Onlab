@@ -1,0 +1,138 @@
+
+.content-box {
+    padding: 2rem;
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 40%;
+    margin: 0 auto;
+}
+
+/* Header (h3) */
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333; /* Dark color for the heading */
+}
+
+/* Input fields */
+.input-field {
+    width: 55%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333; /* Dark text color for better readability */
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 55%;
+    padding: 10px;
+    background-color: #007bff; /* Blue background for the button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Button Hover Effect */
+.btn-submit:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Links (for Register/Login toggle) */
+a {
+    color: #007bff; /* Blue link color */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form Container */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Error or Success message */
+p {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Success message color */
+p.success {
+    color: #28a745; /* Green color for success message */
+}
+
+/* Additional Styling for login/register form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+/* Style for labels */
+label {
+    font-size: 16px;
+    color: #333; /* Dark color for labels */
+    font-weight: bold;
+}
+
+/* Input Focus Style */
+input:focus, textarea:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none;
+}
+
+/* Form Submit Button */
+button[type="submit"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Register Link */
+p.register-link {
+    font-size: 14px;
+    color: #007bff;
+    cursor: pointer;
+    text-align: center;
+}
+
+p.register-link:hover {
+    text-decoration: underline;
+}
