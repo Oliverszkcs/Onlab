@@ -1,14 +1,16 @@
 package org.example.mission_rent_possible.controller.basicpage
 
 import org.example.mission_rent_possible.service.MinioService
+import org.example.mission_rent_possible.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
+
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/files")
-@CrossOrigin(origins = ["http://localhost:3000"])
-class FileController(private var minioService: MinioService) {
+class FileController(private var minioService: MinioService,private var userService: UserService) {
 
     @PostMapping("/upload")
     fun uploadFile(@RequestParam("file") file: MultipartFile?): ResponseEntity<String> {

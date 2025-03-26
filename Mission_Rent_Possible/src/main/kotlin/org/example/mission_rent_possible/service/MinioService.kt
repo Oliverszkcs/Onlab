@@ -23,7 +23,7 @@ class MinioService(
                 .contentType(file.contentType)
                 .build()
         )
-        return "File uploaded successfully: ${file.originalFilename}"
+        return file.originalFilename.toString()
     }
 
     @Throws(Exception::class)

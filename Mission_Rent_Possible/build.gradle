@@ -29,6 +29,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.27")
     implementation ("io.minio:minio:8.5.4")
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 kotlin {
