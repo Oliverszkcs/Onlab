@@ -45,9 +45,7 @@ const Login = () => {
                     roles: decodedToken.roles || [],
                 };
 
-                sessionStorage.setItem('userdata', JSON.stringify(userData));
-                sessionStorage.setItem('username', userData.username);
-                sessionStorage.setItem('email', userData.email);
+                sessionStorage.setItem('token', token);
 
                 setUserData(userData);
                 navigate('/');
