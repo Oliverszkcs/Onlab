@@ -2,17 +2,15 @@ package org.example.mission_rent_possible.controller.databasecontrollers
 
 import org.example.mission_rent_possible.model.Property
 import org.example.mission_rent_possible.service.PropertyService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("properties")
+@RequestMapping("/properties")
+@CrossOrigin(origins = ["http://localhost:3000"])
 class PropertyController(private val propertyService: PropertyService) {
 
-    @GetMapping("/{id}")
-    fun getPropertyById(id: Long) {
+    @GetMapping("/getById/{id}")
+    fun getPropertyById(@PathVariable id: Long) {
         propertyService.getPropertyById(id)
     }
     @PostMapping("/save")
@@ -20,12 +18,17 @@ class PropertyController(private val propertyService: PropertyService) {
         propertyService.saveProperty(property)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getAll")
+    fun getAllProperties(): List<Property> {
+        return propertyService.getAllProperties()
+    }
+
+    @DeleteMapping("/{id}")
     fun deletePropertyById(id: Long) {
         propertyService.deletePropertyById(id)
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     fun updateProperty(property: Property) {
         propertyService.updateProperty(property)
     }

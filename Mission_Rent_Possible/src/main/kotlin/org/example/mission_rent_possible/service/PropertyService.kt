@@ -22,6 +22,7 @@ class PropertyService(private val propertyRepository: PropertyRepo) {
         propertyRepository.deleteById(id)
     }
 
+
     fun updateProperty(property: Property) {
         propertyRepository.save(property)
     }

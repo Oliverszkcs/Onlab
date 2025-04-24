@@ -1,5 +1,6 @@
 package org.example.mission_rent_possible.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity(name = "offer")
@@ -14,10 +15,12 @@ class Offer {
     @Column(nullable = false)
     var status: OfferStatus? = OfferStatus.PENDING
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "buyer_id", nullable = false)
     var buyer: User? = null
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "listing_id", nullable = false)
     var listing: Listing? = null

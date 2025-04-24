@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 class ListingService(private val listingRepo: ListingRepo) {
 
     fun saveListing(listing: Listing) {
+        println("ListingService.saveListing")
         listingRepo.save(listing)
     }
 
@@ -16,7 +17,7 @@ class ListingService(private val listingRepo: ListingRepo) {
         listingRepo.deleteById(id)
     }
 
-    fun getListingById(id: Long): Listing? {
+    fun getListingById(id: Long): Listing {
         return listingRepo.findById(id).orElse(null)
     }
 

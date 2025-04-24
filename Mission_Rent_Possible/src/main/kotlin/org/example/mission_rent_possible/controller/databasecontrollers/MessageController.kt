@@ -2,17 +2,15 @@ package org.example.mission_rent_possible.controller.databasecontrollers
 
 import org.example.mission_rent_possible.model.Message
 import org.example.mission_rent_possible.service.MessageService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("messages")
+@RequestMapping("/messages")
+@CrossOrigin(origins = ["http://localhost:3000"])
 class MessageController(private val messageService: MessageService) {
 
-    @GetMapping("/{id}")
-    fun getMessageById(id: Long) {
+    @GetMapping("/getById/{id}")
+    fun getMessageById(@PathVariable id: Long) {
         messageService.getMessageById(id)
     }
     @PostMapping("/save")
@@ -20,12 +18,12 @@ class MessageController(private val messageService: MessageService) {
         messageService.saveMessage(message)
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     fun deleteMessageById(id: Long) {
         messageService.deleteMessageById(id)
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     fun updateMessage(message: Message) {
         messageService.updateMessage(message)
     }

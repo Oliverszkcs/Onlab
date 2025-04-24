@@ -17,34 +17,46 @@ class UserController(private val userService: UserService ) {
         return "User saved successfully"
     }
 
-    @GetMapping("/all")
+    @GetMapping("/getAll")
     fun getAllUsers(): List<User> {
         return userService.getAllUsers()
     }
 
-    @PostMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deleteUserById(@PathVariable id: Long) {
         userService.deleteUserById(id)
     }
 
-    @PostMapping("{id}")
-    fun deleteUser(@RequestBody email: String) {
-        userService.deleteUser(email)
-    }
-
-    @PostMapping("{id}")
-    fun updateUser(@RequestBody user: User) {
-        userService.updateUser(user)
-    }
 
     @PostMapping("/get")
     fun getUserByEmail(@RequestBody email: String): User? {
         return userService.getUserByEmail(email)
     }
 
+    @GetMapping("/getById/{id}")
+    fun getUserById(@PathVariable id: Long): User? {
+        return userService.getUserById(id)
+    }
+
+    @PostMapping("/getPictures/{email}")
+    fun getUserPictures(@PathVariable email: String): String? {
+        return userService.getUserProfilePic(email)
+    }
+
     @PostMapping("/updatePictures")
     fun updateUserPictures(@RequestParam email: String, @RequestParam file: MultipartFile) {
         userService.updateUserPictures(email, file)
+    }
+
+    @PostMapping("/createListing")
+    fun createListingWithPicture(
+        @RequestParam("email") email: String,
+        @RequestParam("name") name: String,
+        @RequestParam("description") description: String,
+        @RequestParam("price") price: Float,
+        @RequestParam("file") file: MultipartFile
+    ) {
+        userService.createListing(email, name, description, price, file)
     }
 
 }

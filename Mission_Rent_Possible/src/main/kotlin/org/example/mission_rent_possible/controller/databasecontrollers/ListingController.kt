@@ -2,30 +2,39 @@ package org.example.mission_rent_possible.controller.databasecontrollers
 
 import org.example.mission_rent_possible.model.Listing
 import org.example.mission_rent_possible.service.ListingService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
+@RequestMapping("/listings")
 class ListingController(private val listingService: ListingService) {
 
-    @GetMapping("/{id}")
-    fun getListingById(id: Long) {
-        listingService.getListingById(id)
+    @GetMapping("/getById/{id}")
+    fun getListingById(@PathVariable id: Long): Listing {
+        println("ListingController.getListingById: $id")
+        return listingService.getListingById(id)
     }
+
     @PostMapping("/save")
     fun saveListing(listing: Listing) {
         listingService.saveListing(listing)
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     fun deleteListingById(id: Long) {
         listingService.deleteListingById(id)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getAll")
+    fun getAllListings(): List<Listing> {
+        return listingService.getAllListings()
+    }
+
+    @PutMapping("/{id}")
     fun updateListing(listing: Listing) {
         listingService.updateListing(listing)
     }
+
+
 
 }

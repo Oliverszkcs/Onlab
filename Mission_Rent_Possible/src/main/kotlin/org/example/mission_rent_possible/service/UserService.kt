@@ -1,13 +1,23 @@
 package org.example.mission_rent_possible.service
 
+import org.example.mission_rent_possible.model.Listing
+import org.example.mission_rent_possible.model.Picture
+import org.example.mission_rent_possible.model.Property
 import org.example.mission_rent_possible.model.User
+import org.example.mission_rent_possible.repository.PictureRepo
 import org.example.mission_rent_possible.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
-class UserService(private val userRepository: UserRepository, private val fileStorageService: MinioService) {
-     fun saveUser(user: User) {
+class UserService(
+    private val userRepository: UserRepository,
+    private val fileStorageService: MinioService,
+    private val pictureRepo: PictureRepo,
+    private val propertyService: PropertyService,
+    private val listingService: ListingService
+) {
+    fun saveUser(user: User) {
          if(userRepository.findByEmail(user.getEmail().toString()) ==null) {
              userRepository.save(user)
          }
@@ -17,9 +27,6 @@ class UserService(private val userRepository: UserRepository, private val fileSt
         return userRepository.findByEmail(email)
     }
 
-    fun updateUser(user: User) {
-        userRepository.save(user)
-    }
 
     fun deleteUser(email: String) {
         val user = userRepository.findByEmail(email)
@@ -40,9 +47,35 @@ class UserService(private val userRepository: UserRepository, private val fileSt
         val user = userRepository.findByEmail(email)
         if (user != null && file.isEmpty.not()) {
             val fileUrl = fileStorageService.uploadFile(file)
-            user.setPictures(fileUrl)
-            userRepository.save(user)
         }
+    }
+
+    fun createListing(email: String, propertyName: String, description: String, targetPrice: Float, file: MultipartFile) {
+        val user = userRepository.findByEmail(email)
+        if (user != null && !file.isEmpty) {
+            val property = Property(propertyName, user)
+            propertyService.saveProperty(property)
+
+            val listing = Listing(description, targetPrice, user, property)
+            listingService.saveListing(listing)
+
+            val fileUrl = fileStorageService.uploadFile(file)
+            val picture = Picture(fileUrl, user, listing)
+            pictureRepo.save(picture)
+        }
+    }
+
+    fun getUserProfilePic(email: String): String? {
+        val user = userRepository.findByEmail(email)
+        if (user != null) {
+            val pictures = pictureRepo.findByUser(user)
+            return pictures[0].url
+        }
+        return null
+    }
+
+    fun getUserById(id: Long): User? {
+        return userRepository.findById(id).orElse(null)
     }
 
 

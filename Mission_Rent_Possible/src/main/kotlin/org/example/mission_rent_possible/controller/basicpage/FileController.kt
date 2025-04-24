@@ -1,5 +1,6 @@
 package org.example.mission_rent_possible.controller.basicpage
 
+import org.example.mission_rent_possible.service.ListingService
 import org.example.mission_rent_possible.service.MinioService
 import org.example.mission_rent_possible.service.UserService
 import org.springframework.http.ResponseEntity
@@ -10,18 +11,31 @@ import org.springframework.web.multipart.MultipartFile
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/files")
-class FileController(private var minioService: MinioService,private var userService: UserService) {
+class FileController(
+    private var minioService: MinioService,
+    private var userService: UserService,
+    private val listingService: ListingService
+) {
 
     @PostMapping("/upload")
-    fun uploadFile(@RequestParam("file") file: MultipartFile?): ResponseEntity<String> {
+    fun uploadFile(@RequestParam("file") file: MultipartFile,
+                   @RequestParam("description")description: String,
+                   @RequestParam("email")email: String,
+                   @RequestParam("name")name: String,
+                   @RequestParam("price")price: Float,
+                   ): ResponseEntity<String>
+    {
         return try {
             if (file != null) {
                 println("Received file: ${file.originalFilename}, Size: ${file.size} bytes")
+                println("Description: $description")
             };
             if (file == null || file.isEmpty) {
                 ResponseEntity.badRequest().body("File is empty or missing")
             } else {
                 val response: String = minioService.uploadFile(file)
+                userService.createListing(email,name,description,price,file)
+
                 ResponseEntity.ok(response)
             }
         } catch (e: Exception) {

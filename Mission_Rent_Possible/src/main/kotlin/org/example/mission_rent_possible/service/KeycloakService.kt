@@ -2,9 +2,10 @@ package org.example.mission_rent_possible.service
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.servlet.http.Cookie
-import jakarta.servlet.http.HttpServletResponse
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.net.URLEncoder
@@ -58,17 +59,6 @@ class KeycloakService {
         }
     }
 
-    fun addTokenToCookie(token: String, response: HttpServletResponse) {
-        val cookie = Cookie("token", token).apply {
-            isHttpOnly = true
-            secure = true
-            path = "/"
-            maxAge = 3600
-            setAttribute("SameSite", "Strict")
-        }
-
-        response.addCookie(cookie)
-    }
 
 
 
