@@ -25,7 +25,6 @@ class Listing {
     @OneToMany(mappedBy = "listing", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var pictures: MutableList<Picture> = mutableListOf()
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "property_id", nullable = false, unique = true)
     var property: Property? = null

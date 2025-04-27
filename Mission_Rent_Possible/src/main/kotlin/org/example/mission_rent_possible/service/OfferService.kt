@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service
 class OfferService(private val offerRepository: OfferRepo) {
 
     fun saveOffer(offer: Offer) {
+
         offerRepository.save(offer)
     }
+
     fun deleteOfferById(id: Long) {
         offerRepository.deleteById(id)
     }

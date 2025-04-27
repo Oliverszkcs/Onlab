@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity(name = "offer")
-class Offer {
+open class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null
@@ -31,13 +31,15 @@ class Offer {
         this.offeredPrice = offeredPrice
         this.buyer = buyer
         this.listing = listing
+        listing?.offers?.addLast(this)
+        buyer?.offers?.addLast(this)
     }
 
     fun getOfferedPrice(): Float? = offeredPrice
     fun setOfferedPrice(offeredPrice: Float?) { this.offeredPrice = offeredPrice }
 
     override fun toString(): String {
-        return "Offer{id=$id, offeredPrice=$offeredPrice, status=$status}"
+        return "Offer{id=$id, offeredPrice=$offeredPrice, status=$status , buyer=$buyer, listing=$listing}"
     }
 }
 

@@ -1,6 +1,7 @@
 package org.example.mission_rent_possible.service
 
 import org.example.mission_rent_possible.model.Listing
+import org.example.mission_rent_possible.model.propertyType
 import org.example.mission_rent_possible.repository.ListingRepo
 import org.springframework.stereotype.Service
 
@@ -27,6 +28,24 @@ class ListingService(private val listingRepo: ListingRepo) {
 
     fun updateListing(listing: Listing) {
         listingRepo.save(listing)
+    }
+
+    fun getFilteredListings(
+        city: String?,
+        price: Double?,
+        bedrooms: Int?,
+        bathrooms: Int?,
+        minimumArea: Int?,
+        furnished: Boolean?,
+        type: propertyType?
+    ): List<Listing> {
+        return listingRepo.findAllFilteredListings(
+            city, price, bedrooms, bathrooms, minimumArea, furnished, type
+        )
+    }
+
+    fun getListingCount(): Long {
+        return listingRepo.count()
     }
 
 }

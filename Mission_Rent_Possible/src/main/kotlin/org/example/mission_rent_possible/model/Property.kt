@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity(name = "property")
- class Property {
+open class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null
@@ -34,7 +34,7 @@ import jakarta.persistence.*
         this.owner = owner
         this.name = name
     }
-    constructor(name: String?, bathroomNumber: Int?, bedroomNumber: Int?, minimumArea: Int?, furnished: Boolean?, location: String?, type: propertyType?) {
+    constructor(owner: User?,name: String?, bathroomNumber: Int?, bedroomNumber: Int?, minimumArea: Int?, furnished: Boolean?, location: String?, type: propertyType?) {
         this.name = name
         this.bathroomNumber = bathroomNumber
         this.bedroomNumber = bedroomNumber
@@ -42,6 +42,7 @@ import jakarta.persistence.*
         this.furnished = furnished
         this.location = location
         this.type = type
+        this.owner = owner
     }
 
 

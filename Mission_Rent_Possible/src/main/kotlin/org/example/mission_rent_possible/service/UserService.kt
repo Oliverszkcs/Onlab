@@ -1,9 +1,6 @@
 package org.example.mission_rent_possible.service
 
-import org.example.mission_rent_possible.model.Listing
-import org.example.mission_rent_possible.model.Picture
-import org.example.mission_rent_possible.model.Property
-import org.example.mission_rent_possible.model.User
+import org.example.mission_rent_possible.model.*
 import org.example.mission_rent_possible.repository.PictureRepo
 import org.example.mission_rent_possible.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -22,6 +19,11 @@ class UserService(
              userRepository.save(user)
          }
      }
+
+    fun getUserIdByEmail(email: String): Int? {
+        val user = userRepository.findByEmail(email)
+        return user?.id
+    }
 
     fun getUserByEmail(email: String): User? {
         return userRepository.findByEmail(email)
@@ -50,10 +52,21 @@ class UserService(
         }
     }
 
-    fun createListing(email: String, propertyName: String, description: String, targetPrice: Float, file: MultipartFile) {
+    fun createListing(email: String,
+                      propertyName: String,
+                      description: String,
+                      targetPrice: Float,
+                      file: MultipartFile,
+                      bathroomNumber: Int,
+                      bedroomNumber: Int,
+                      minimumArea: Int,
+                      furnished: Boolean,
+                      location: String,
+                      type: propertyType
+                      ) {
         val user = userRepository.findByEmail(email)
         if (user != null && !file.isEmpty) {
-            val property = Property(propertyName, user)
+            val property = Property(user,propertyName, bathroomNumber,bedroomNumber,minimumArea,furnished,location,type)
             propertyService.saveProperty(property)
 
             val listing = Listing(description, targetPrice, user, property)
@@ -78,5 +91,8 @@ class UserService(
         return userRepository.findById(id).orElse(null)
     }
 
+    fun getCount(): Long {
+        return userRepository.count()
+    }
 
 }

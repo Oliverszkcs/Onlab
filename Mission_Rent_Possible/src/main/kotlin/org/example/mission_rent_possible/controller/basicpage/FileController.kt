@@ -1,5 +1,6 @@
 package org.example.mission_rent_possible.controller.basicpage
 
+import org.example.mission_rent_possible.model.propertyType
 import org.example.mission_rent_possible.service.ListingService
 import org.example.mission_rent_possible.service.MinioService
 import org.example.mission_rent_possible.service.UserService
@@ -19,10 +20,16 @@ class FileController(
 
     @PostMapping("/upload")
     fun uploadFile(@RequestParam("file") file: MultipartFile,
-                   @RequestParam("description")description: String,
-                   @RequestParam("email")email: String,
-                   @RequestParam("name")name: String,
-                   @RequestParam("price")price: Float,
+                   @RequestParam("name") name: String,
+                   @RequestParam("description") description: String,
+                   @RequestParam("price") price: Float,
+                   @RequestParam("email") email: String,
+                   @RequestParam("bathroomNumber") bathroomNumber: Int,
+                   @RequestParam("bedroomNumber") bedroomNumber: Int,
+                   @RequestParam("minimumArea") minimumArea: Int,
+                   @RequestParam("furnished") furnished: Boolean,
+                   @RequestParam("location") location: String,
+                   @RequestParam("type") type: propertyType
                    ): ResponseEntity<String>
     {
         return try {
@@ -34,7 +41,7 @@ class FileController(
                 ResponseEntity.badRequest().body("File is empty or missing")
             } else {
                 val response: String = minioService.uploadFile(file)
-                userService.createListing(email,name,description,price,file)
+                userService.createListing(email,name,description,price,file,bathroomNumber,bedroomNumber,minimumArea,furnished,location,type)
 
                 ResponseEntity.ok(response)
             }
