@@ -1,0 +1,101 @@
+
+.navbar {
+    width: 100%;
+    background-color: #212f3d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.navbar * {
+    box-sizing: border-box;
+}
+
+.logo {
+    font-family: 'Sacramento', cursive;
+    font-size: 2.5rem;
+    font-weight: normal;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    font-style: italic;
+    transform: rotate(-2deg);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links .nav-link a {
+    color: #ffffff;
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-links .nav-link a:hover {
+    color: #0056b3;
+}
+
+.action-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.profile-btn,
+.upload-btn,
+.nav-button {
+    background-color: #007bff;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-btn a,
+.upload-btn a,
+.nav-button a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.profile-btn:hover,
+.upload-btn:hover,
+.nav-button:hover {
+    background-color: #0056b3;
+}
+
+.nav-button.login-btn {
+    background-color: #1c2631;
+}
+
+.nav-button.login-btn:hover {
+    background-color: #101820;
+}
+
+.navbar .menu-icon {
+    display: none;
+}
+
+.nav-links.show {
+    display: block;
+}

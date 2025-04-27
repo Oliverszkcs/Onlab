@@ -10,18 +10,13 @@ import Adverts from "./Components/Adverts/Adverts";
 import Footer from "./Components/Footer/Footer";
 
 function Home() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     return (
         <>
             <Navbar keycloak={"asd"} />
             <Header />
-            <About />
-            <Apartments />
-            <Works />
-            <Services />
-            <Agents />
             <Adverts />
+            <About />
             <Footer />
         </>
     );

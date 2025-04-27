@@ -1,4 +1,36 @@
+import {useEffect, useState} from "react";
+import "../../css/about.css";
+
 export default function About() {
+	const [apartmentCount, setApartmentCount] = useState(0);
+	const [userCount, setUserCount] = useState(0);
+
+	const fetchApartmentCount = async () => {
+		try {
+			const response = await fetch("http://localhost:8082/listings/getCount");
+			const data = await response.json();
+			setApartmentCount(data);
+		} catch (error) {
+			console.error("Error fetching apartment count:", error);
+		}
+	}
+
+	const fetchUserCount = async () => {
+		try{
+			const response = await fetch("http://localhost:8082/users/getCount");
+			const data = await response.json();
+			setUserCount(data);
+		}catch (error){
+			console.error("Error fetching user count:", error);
+		}
+	}
+
+	useEffect(() => {
+		fetchApartmentCount();
+		fetchUserCount();
+	}, []);
+
+
 	return (
 		<div className="about" id="about">
 			<div className="company">
@@ -23,25 +55,13 @@ export default function About() {
 			<div className="stats">
 				<div className="apartments">
 					<p>
-						<span>784</span> <br /> Apartments
+						<span>{apartmentCount}</span> <br /> Properties
 					</p>
 				</div>
 				<div className="clients">
 					<p>
-						<span>3854</span>
+						<span>{userCount}</span>
 						<br /> Clients
-					</p>
-				</div>
-				<div className="employees">
-					<p>
-						<span>24</span>
-						<br /> Employees
-					</p>
-				</div>
-				<div className="awards">
-					<p>
-						<span>14</span>
-						<br /> Awards
 					</p>
 				</div>
 			</div>

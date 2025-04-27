@@ -1,0 +1,55 @@
+.about {
+    padding: 50px 20px;
+    background-color: #f4f4f4;
+}
+
+.company {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.company .heading {
+    font-size: 24px;
+    font-weight: 600;
+    color: #212f3d;
+    margin-bottom: 20px;
+}
+
+.company p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.stats .apartments,
+.stats .clients {
+    background-color: #212f3d;
+    padding: 30px;
+    border-radius: 8px;
+    color: #fff;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats .apartments p,
+.stats .clients p {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.stats .apartments span,
+.stats .clients span {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}

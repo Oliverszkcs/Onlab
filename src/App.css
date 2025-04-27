@@ -1,11 +1,10 @@
 :root {
   --primaryColor: #3498db;
   --textColor: #212f3d;
-  --mainTransition: all 0.3s ease-in-out;
   --mainBack: #d7dbdd;
   --mainShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
 
+}
 * {
   margin: 0;
   padding: 0;
@@ -13,10 +12,12 @@
   color: var(--textColor);
 }
 
+
 html, body {
-  padding-top: 100px;
+  padding-top: 0px;
   overflow-x: hidden;
 }
+
 
 /* NAVBAR STYLING */
 nav {
@@ -79,6 +80,11 @@ button {
 
 .upload-btn:hover, .profile-btn:hover {
   background-color: darken(var(--primaryColor), 10%);
+}
+
+
+.upload-form {
+  margin-top: 0px;
 }
 
 
@@ -1195,6 +1201,20 @@ footer {
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
+  }
+
+  .search-bar button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    transition: var(--transition);
+  }
+
+  .search-bar button:hover {
+    background: #2980b9;
   }
 
   .search-input {

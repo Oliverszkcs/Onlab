@@ -129,7 +129,18 @@
     transition: background .3s, color .3s, box-shadow .3s;
     color: #fff;
 }
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+}
 
-a:link {
+a:hover,
+a:link:hover,
+a:visited:hover,
+a:hover,
+a:active:hover {
     text-decoration: none;
 }

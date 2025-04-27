@@ -34,7 +34,6 @@ upload.body {
     color: white;
 }
 
-
 .form-group input[type="text"], .form-group textarea , .form-group input[type="number"] {
     width: 100%;
     padding: 10px;
@@ -43,6 +42,22 @@ upload.body {
     border-radius: 4px;
     background-color: #34495e;
     color: white;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+}
+
+a:hover,
+a:link:hover,
+a:visited:hover,
+a:hover,
+a:active:hover {
+    text-decoration: none;
 }
 
 
@@ -55,6 +70,18 @@ upload.body {
     border-radius: 4px;
     background-color: #34495e;
     color: white;
+}
+
+.form-group select,
+.form-group input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #34495e;
+    color: white;
+    appearance: none;
 }
 
 upload.button {

@@ -1,3 +1,4 @@
+import "../../css/footer.css";
 export default function Footer() {
 	return (
 		<div className="footer" id="contacts">
@@ -16,6 +17,7 @@ export default function Footer() {
 								class="fa fa-long-arrow-right"
 								aria-hidden="true"
 							></i>
+							Send in
 						</button>
 					</div>
 				</div>

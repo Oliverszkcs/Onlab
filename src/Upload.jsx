@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./upload.css";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function UploadProperty() {
     const [name, setName] = useState("");
@@ -9,8 +9,14 @@ function UploadProperty() {
     const [price, setPrice] = useState("");
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
+    const [bathroomNumber, setBathroomNumber] = useState("");
+    const [bedroomNumber, setBedroomNumber] = useState("");
+    const [Area, setArea] = useState("");
+    const [furnished, setFurnished] = useState(false);
+    const [location, setLocation] = useState("");
+    const [type, setType] = useState("");
 
-    const token=sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const email = decodedToken.email;
 
@@ -22,11 +28,9 @@ function UploadProperty() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Form submitted with values:", { name, description, price, file });
 
         if (!file) {
             setMessage("❌ Please select an image!");
-            console.log("No file selected");
             return;
         }
 
@@ -35,31 +39,29 @@ function UploadProperty() {
         formData.append("description", description);
         formData.append("price", price);
         formData.append("file", file);
-        formData.append('email',email)
+        formData.append("email", email);
+        formData.append("bathroomNumber", bathroomNumber);
+        formData.append("bedroomNumber", bedroomNumber);
+        formData.append("minimumArea", Area);
+        formData.append("furnished", furnished);
+        formData.append("location", location);
+        formData.append("type", type);
 
-        if(sessionStorage.getItem("token")) {
-        try {
-            await axios.post("http://localhost:8082/files/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
+        if (sessionStorage.getItem("token")) {
+            try {
+                await axios.post("http://localhost:8082/files/upload", formData, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
 
-            setMessage("✅ Upload successful!");
-            console.log("Upload successful");
+                setMessage("✅ Upload successful!");
+                console.log("Upload successful");
 
-            const pictures = new FormData();
-            const token = sessionStorage.getItem("token");
-            const decodedToken = jwtDecode(token);
-            const email = decodedToken.email
-            pictures.append("file", file);
-            pictures.append("email", email);
-
-            console.log("Pictures updated for user");
-
-        } catch (error) {
-            console.error("Upload error:", error);
-            setMessage("❌ Upload failed! Please try again.");
+            } catch (error) {
+                console.error("Upload error:", error);
+                setMessage("❌ Upload failed! Please try again.");
+            }
         }
-    }};
+    };
 
     return (
         <div className="upload-form">
@@ -67,46 +69,58 @@ function UploadProperty() {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Property Name:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter property name"
-                        required
-                    />
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                 </div>
                 <div className="form-group">
                     <label>Description:</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter property description"
-                        rows="3"
-                        required
-                    />
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows="3" required />
                 </div>
                 <div className="form-group">
                     <label>Price ($):</label>
-                    <input
-                        type="number"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        placeholder="Enter price"
-                        required
-                    />
+                    <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>Bathrooms:</label>
+                    <input type="number" value={bathroomNumber} onChange={(e) => setBathroomNumber(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>Bedrooms:</label>
+                    <input type="number" value={bedroomNumber} onChange={(e) => setBedroomNumber(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>Area (m²):</label>
+                    <input type="number" value={Area} onChange={(e) => setArea(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>Furnished:</label>
+                    <select value={furnished ? "Yes" : "No"} onChange={(e) => setFurnished(e.target.value === "Yes")}>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Location:</label>
+                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>Property Type:</label>
+                    <select value={type} onChange={(e) => setType(e.target.value)} required>
+                        <option value="">Select type</option>
+                        <option value="APARTMENT">Apartment</option>
+                        <option value="HOUSE">Detached House</option>
+                        <option value="STUDIO">Studio</option>
+                        <option value="LOFT">Loft</option>
+                    </select>
                 </div>
                 <div className="form-group">
                     <label>Upload Image:</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        required
-                    />
+                    <input type="file" accept="image/*" onChange={handleFileChange} required />
                 </div>
                 <button type="submit">Upload</button>
             </form>
-            {message && <p style={{ color: message.includes("❌") ? "red" : "green" }}>{message}</p>}
+            {message && (
+                <p style={{ color: message.includes("❌") ? "red" : "green" }}>{message}</p>
+            )}
         </div>
     );
 }

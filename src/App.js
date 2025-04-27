@@ -4,8 +4,9 @@ import Home from "./Home";
 import Upload from "./Upload";
 import Profile from "./Profile";
 import Login from "./Components/Login/Login";
-import "./App.css";
 import ApartmentBrowser from "./Components/Apartments/ApartmentBrowser";
+import PrivateRoute from "./PrivateRoute";
+import ApartmentDetails from "./Components/Apartments/ApartmentDetails";
 
 function App() {
     return (
@@ -13,9 +14,12 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<Home />} />
-                    <Route path="/upload" element={<Upload />} />
-                    <Route path="/profile" element={<Profile />} />
                     <Route path="/browse" element={<ApartmentBrowser />} />
+
+
+                    <Route path="/upload" element={<PrivateRoute element={<Upload />} />} />
+                    <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+                    <Route path="/property/:id" element={<ApartmentDetails />} />
                 </Routes>
             </Router>
     );

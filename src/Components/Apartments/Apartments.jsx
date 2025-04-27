@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import apartments from "../../Data/ApartmentData";
 import Apartment from "./Apartment";
+import "..//../css/apatments.css";
 
 export default function Apartments() {
 	const [allApartments] = useState(apartments);
