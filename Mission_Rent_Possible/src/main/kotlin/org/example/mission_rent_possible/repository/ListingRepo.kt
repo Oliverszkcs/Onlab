@@ -2,6 +2,7 @@ package org.example.mission_rent_possible.repository
 
 
 import org.example.mission_rent_possible.model.Listing
+import org.example.mission_rent_possible.model.User
 import org.example.mission_rent_possible.model.propertyType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -42,4 +43,7 @@ interface ListingRepo: JpaRepository<Listing, Long> {
         type: propertyType?
     ): List<Listing>
 
+    fun findBylistingOwner(user: User): List<Listing> {
+       return findAll().filter { it.listingOwner == user }
+    }
 }

@@ -29,7 +29,6 @@ class Listing {
     @JoinColumn(name = "property_id", nullable = false, unique = true)
     var property: Property? = null
 
-    @JsonIgnore
     @OneToMany(mappedBy = "listing", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var offers: MutableList<Offer> = mutableListOf()
 

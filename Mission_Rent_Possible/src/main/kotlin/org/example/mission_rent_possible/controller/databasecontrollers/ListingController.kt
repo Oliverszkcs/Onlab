@@ -3,18 +3,32 @@ package org.example.mission_rent_possible.controller.databasecontrollers
 import org.example.mission_rent_possible.model.Listing
 import org.example.mission_rent_possible.model.propertyType
 import org.example.mission_rent_possible.service.ListingService
+import org.example.mission_rent_possible.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/listings")
-class ListingController(private val listingService: ListingService) {
+class ListingController(
+    private val listingService: ListingService,
+    private val userService: UserService
+) {
 
     @GetMapping("/getById/{id}")
     fun getListingById(@PathVariable id: Long): Listing {
         println("ListingController.getListingById: $id")
         return listingService.getListingById(id)
     }
+
+    @GetMapping("/getByEmail/{email}")
+    fun getListingBylistingOwner(@PathVariable email: String): List<Listing> {
+        val user = userService.getUserByEmail(email)
+        if(user == null) {
+            throw IllegalArgumentException("User with email $email not found")
+        }
+        return listingService.getListingBylistingOwner(user)
+    }
+
 
     @GetMapping("/getCount")
     fun getListingCount(): Long {
