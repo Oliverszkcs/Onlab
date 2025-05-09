@@ -60,6 +60,67 @@ class KeycloakService {
     }
 
 
+    fun register(username: String, email: String, password: String,firstName: String, lastName: String): Boolean {
+        val adminToken = getAdminToken() ?: return false
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(adminToken)
+        headers["Content-Type"] = "application/json"
+
+        val user = mapOf(
+            "username" to username,
+            "email" to email,
+            "enabled" to true,
+            "emailVerified" to true,
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "credentials" to listOf(
+                mapOf(
+                    "type" to "password",
+                    "value" to password,
+                    "temporary" to false
+                )
+            )
+        )
+
+        val entity = HttpEntity(user, headers)
+
+        return try {
+            val response = restTemplate.postForEntity(
+                "http://localhost:8080/admin/realms/Mission_Rent_Possible/users",
+                entity,
+                String::class.java
+            )
+            response.statusCode.is2xxSuccessful
+        } catch (e: Exception) {
+            println("Registration error: ${e.message}")
+            false
+        }
+    }
+    fun getAdminToken(): String? {
+        val tokenUrl = "http://localhost:8080/realms/Mission_Rent_Possible/protocol/openid-connect/token"
+
+        val body = "client_id=user-reg-service" +
+                "&client_secret=jRFjgvgo8GyPoqE1DB3beZJZkCdJHtSW" +
+                "&grant_type=client_credentials"
+
+        val headers = HttpHeaders()
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
+
+        val entity = HttpEntity(body, headers)
+
+        return try {
+            val response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity, String::class.java)
+            if (response.statusCode.is2xxSuccessful) {
+                val jsonNode = objectMapper.readTree(response.body)
+                jsonNode["access_token"]?.asText()
+            } else null
+        } catch (e: Exception) {
+            println("Failed to get admin token: ${e.message}")
+            null
+        }
+    }
+
 
 
 }

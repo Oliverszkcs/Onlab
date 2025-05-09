@@ -33,6 +33,16 @@ class OfferController(
         offerService.saveOffer(offer)
     }
 
+    @PostMapping("/saveStatusChange")
+    fun saveOfferStatusChange(
+        @RequestParam("offerId") offerId: Long,
+        @RequestParam("status") status: String
+    )
+    {
+        offerService.saveOfferStatusChange(offerId, status)
+        println("OfferController.saveOfferStatusChange: offerId: $offerId, status: $status")
+    }
+
     @DeleteMapping("/{id}")
     fun deleteOfferById(@PathVariable id: Long) {
         offerService.deleteOfferById(id)
@@ -41,5 +51,10 @@ class OfferController(
     @PutMapping("/{id}")
     fun updateOffer(@RequestBody offer: Offer) {
         offerService.updateOffer(offer)
+    }
+
+    @GetMapping("/getByListing/{id}")
+    fun getOffersByListingId(@PathVariable("id") listingId: Long): List<Offer> {
+        return offerService.getOfferByListingOwner(listingId)
     }
 }

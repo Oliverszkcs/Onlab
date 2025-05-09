@@ -38,6 +38,7 @@ open class Offer {
     fun getOfferedPrice(): Float? = offeredPrice
     fun setOfferedPrice(offeredPrice: Float?) { this.offeredPrice = offeredPrice }
 
+
     override fun toString(): String {
         return "Offer{id=$id, offeredPrice=$offeredPrice, status=$status , buyer=$buyer, listing=$listing}"
     }
