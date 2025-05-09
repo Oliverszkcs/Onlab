@@ -36,20 +36,13 @@ export default function About() {
 			<div className="company">
 				<p className="heading">Our Company's Statistics</p>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Aliquam vitae nam a! Consequatur ut veniam iste, temporibus
-					eveniet repudiandae quia! Animi quo expedita molestiae
-					deleniti soluta in saepe beatae a est. Enim inventore itaque
-					ea voluptas quibusdam dolore esse dignissimos?
+					Finding the right property can be a challenging and time-consuming process, whether you're looking to buy or rent. Our platform aims to simplify this search by bringing together a wide range of properties in one place. Developed as part of my school project, this web app provides an easy-to-use solution for both property seekers and owners, making it easier than ever to find, list, and manage properties for sale or rent.
+
+
 				</p>
 				<br />
 				<p>
-					{" "}
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Aliquam vitae nam a! Consequatur ut veniam iste, temporibus
-					eveniet repudiandae quia! Animi quo expedita molestiae
-					deleniti soluta in saepe beatae a est. Enim inventore itaque
-					ea voluptas quibusdam dolore esse dignissimos?
+					Our company's statistics page provides valuable insights into the performance and activity of our property sales and rental platform. As part of my school project, I, Szakács Olivér, am developing a web app that allows users to easily browse and manage property listings for buying and renting. The app offers a seamless experience for both property owners and potential tenants or buyers.
 				</p>
 			</div>
 			<div className="stats">

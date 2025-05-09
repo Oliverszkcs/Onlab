@@ -40,6 +40,7 @@
     font-size: 1.3rem;
     text-decoration: none;
     transition: color 0.3s ease;
+    cursor: pointer;
 }
 
 .nav-links .nav-link a:hover {

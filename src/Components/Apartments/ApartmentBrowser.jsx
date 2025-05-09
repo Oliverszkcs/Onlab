@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Apartment from "./Apartment";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import "../../css/apatments.css";
 import "../../css/apartmentBrowser.css";
+import Advert from "../Adverts/Advert";
 
 export default function ApartmentBrowser() {
     const [apartments, setApartments] = useState([]);
@@ -38,23 +39,30 @@ export default function ApartmentBrowser() {
             <div className="apartments-container">
                 <div className="apartment-list">
                     {apartments.length === 0 ? (
-                        <div className={"apartment-heading"} >No properties available at the moment for these specifications.</div>
+                        <div
+                            className="apartment-heading no-properties"
+                            onClick={() => navigate("/")}
+                            style={{ cursor: "pointer", textDecoration: "underline" }}
+                        >
+                            No properties available at the moment for these specifications. (Click to return)
+                        </div>
                     ) : (
                         apartments.map((apartment) => (
-                            <Apartment
+                            <div
+                                className="apartment-item"
                                 key={apartment.id}
-                                id={apartment.id}
-                                image={`http://localhost:9000/pictures/${apartment.images[0]?.url}`}
-                                title={apartment.property.name}
-                                price={apartment.targetPrice}
-                                description={apartment.description}
-                                location={apartment.property.location}
-                                bedrooms={apartment.property.bedroomNumber}
-                                bathrooms={apartment.property.bathroomNumber}
-                                area={apartment.property.minimumArea}
-                                furnished={apartment.property.furnished}
-                                type={apartment.property.type}
-                            />
+                                onClick={() => navigate(`/property/${apartment.id}`)}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <Advert
+                                    id={apartment.id}
+                                    image={`http://localhost:9000/pictures/${apartment.images[0]?.url}`}
+                                    adTitle={apartment.property.name}
+                                    price={apartment.targetPrice}
+                                    text={apartment.description + ` | Price: ${apartment.targetPrice} | Bedrooms: ${apartment.property.bedroomNumber} | Bathrooms: ${apartment.property.bathroomNumber}`}
+                                    location={apartment.property.location}
+                                />
+                            </div>
                         ))
                     )}
                 </div>
@@ -64,8 +72,6 @@ export default function ApartmentBrowser() {
                     <button className="apartment-btn" onClick={handleViewAll}>
                         View All Properties
                     </button>
-                </div>
-                <div className={"home-button"}>
                     <button className="apartment-btn" onClick={() => navigate("/")}>
                         Back to Home Page
                     </button>

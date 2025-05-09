@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./Components/Header/Navbar";
 import Header from "./Components/Header/Header";
 import About from "./Components/About/About";
-import Apartments from "./Components/Apartments/Apartments";
-import Works from "./Components/Works/Works";
-import Services from "./Components/Services/Services";
-import Agents from "./Components/Agents/Agents";
 import Adverts from "./Components/Adverts/Adverts";
 import Footer from "./Components/Footer/Footer";
 
@@ -13,9 +9,9 @@ function Home() {
 
     return (
         <>
-            <Navbar keycloak={"asd"} />
+            <Navbar />
             <Header />
-            <Adverts />
+            <Adverts navPoint={"/browse"}/>
             <About />
             <Footer />
         </>

@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import landingImage from "../../img/landing.jpg";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../css/header.css";
 
 export default function Header() {
@@ -11,22 +11,44 @@ export default function Header() {
 	const handleSearch = async () => {
 		try {
 			await saveSearch();
-			const requestText = `Extract the property search parameters from the given text and return them as a JSON object with the following keys. If a key is not mentioned, set it to its default value. Only return the JSON object, no random values, explanations, or SQL code.
+			const requestText = `You are an INFORMATION EXTRACTOR. Your ONLY task is to EXTRACT structured data from natural language.
 
-price: Number (no symbols).
+From the input text, extract the following REAL ESTATE SEARCH PARAMETERS into STRICT, VALID JSON. OUTPUT ONLY THE JSON — NO EXPLANATION, NO HEADERS, NO COMMENTS.
 
-type: One of (Apartment, House, Studio, Villa, Garage). Default: 'Apartment'.
+EXTRACT THESE FIELDS:
 
-bedroom_number: Integer.NOt mentioned ? Default: 0.
+- "price": Integer — The cost mentioned in the text. IGNORE all currency symbols like HUF, €, $, etc. If not mentioned, return 0.
 
-bathroom_number: Integer. NOt mentioned ? Default: 0.
+- "bedroom_number": Integer — Count how many BEDROOMS are mentioned. If not present, return 0.
 
-minimum_area: Integer (in square meters).NOt mentioned ? Default: 0. 
+- "bathroom_number": Integer — Count how many BATHROOMS are mentioned. If not present, return 0.
 
-furnished: Boolean (True or False). Default: False.
+- "minimum_area": Integer — Area in square meters. Look for “sqm”, “square meters”, or “m²”. If missing, return 0.
 
-location: City or address (e.g., Budapest, Debrecen). Location usually follows "in" or similar words and starts with a capital letter.`
+- "furnished": Boolean — TRUE if the word "furnished" appears, otherwise FALSE.
 
+- "location": String — Extract the city or area name, usually after the word "in". If no location is found, return " ".
+
+- "type": String — One of: "Apartment", "House", "Studio", "Villa", "Garage". If not present, default to "Apartment".
+
+EXAMPLE INPUT:
+
+I'm looking for a furnished villa in Debrecen with 4 bedrooms, 3 bathrooms, at least 120 square meters, and the price should be around 600000 HUF.
+
+EXPECTED OUTPUT:
+
+{
+  "price": 600000,
+  "bedroom_number": 4,
+  "bathroom_number": 3,
+  "minimum_area": 120,
+  "furnished": true,
+  "location": "Debrecen",
+  "type": "Villa"
+}
+
+NOW PROCESS THIS INPUT:
+`;
 
 			const response = await axios.post("http://localhost:11434/api/generate", {
 				model: "qwen2:0.5b",
@@ -38,7 +60,6 @@ location: City or address (e.g., Budapest, Debrecen). Location usually follows "
 			console.log(cleanedResponse);
 			let searchParams = JSON.parse(cleanedResponse);
 			await perfomFilteredSearch(searchParams);
-
 		} catch (error) {
 			console.error("Error during API call:", error);
 		}
@@ -67,50 +88,46 @@ location: City or address (e.g., Budapest, Debrecen). Location usually follows "
 					type: searchParams.type,
 				},
 			});
+
 			navigate("/browse", { state: { listings: response.data } });
-			console.log(response.data)
+			console.log(response.data);
 		} catch (error) {
 			console.error("Error during filtered search:", error);
 		}
 	};
 
-
+	const isLoggedIn = sessionStorage.getItem("token") !== null;
+	const isButtonDisabled = !isLoggedIn || !searchText.trim();
 
 	return (
-		<>
-			<div className="header" id="header">
-				<div className="landing-text">
-					<div className="cta">
-						<p>Find Your New Modern Apartment</p>
-					</div>
-					<div className="search-bar">
-						<input
-							type="text"
-							placeholder="Search Location"
-							value={searchText}
-							onInput={(e) => setSearchText(e.target.value)}
-						/>
-						<button onClick={handleSearch}>Search</button>
-					</div>
+		<div className="header" id="header">
+			<div className="landing-text">
+				<div className="cta">
+					<p>Find Your New Modern Apartment</p>
 				</div>
-				<div className="landing-image">
-					<img src={landingImage} alt="" />
-				</div>
-				<div className="contact-info">
-					<div className="phone">
-						<p>
-							<i class="fa fa-phone" aria-hidden="true"></i>{" "}
-							<span>(+254)7 2496 6748</span>
-						</p>
-					</div>
-					<div>
-						<p>
-							<i class="fa fa-map-marker" aria-hidden="true"></i>{" "}
-							<span>Nairobi, Kenya</span>
-						</p>
-					</div>
+				<div className="search-bar">
+					<input
+						type="text"
+						placeholder="Enter a keyword or sentence to search for properties"
+						value={searchText}
+						onChange={(e) => setSearchText(e.target.value)}
+					/>
+					<button
+						onClick={handleSearch}
+						disabled={isButtonDisabled}
+						style={{
+							backgroundColor: isButtonDisabled ? "" : "red",
+							cursor: isButtonDisabled ? "pointer" : "not-allowed",
+						}}
+						title={isButtonDisabled ? "Please login first" : ""}
+					>
+						Search
+					</button>
 				</div>
 			</div>
-		</>
+			<div className="landing-image">
+				<img src={landingImage} alt="" />
+			</div>
+		</div>
 	);
 }

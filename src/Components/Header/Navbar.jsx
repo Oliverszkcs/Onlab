@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-scroll";
 import "../../css/navbar.css";
 export default function Navbar({ keycloak }) {
-	const [menu, setMenu] = useState(true);
+	const menu = useState(true);
 
-	const showMenu = () => {
-		setMenu(!menu);
-	};
 
 	const isAuthenticated = sessionStorage.getItem("token");
 
@@ -42,7 +39,7 @@ export default function Navbar({ keycloak }) {
 				</div>
 				<div className="nav-link">
 					<Link
-						to="apartments"
+						to="Adverts"
 						spy={true}
 						smooth={true}
 						duration={2000}

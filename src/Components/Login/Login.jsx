@@ -8,6 +8,8 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [firstName,setFirstName] = useState('');
+    const [lastName,SetLastName] = useState('');
     const [error, setError] = useState('');
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
@@ -56,18 +58,40 @@ const Login = () => {
         }
     };
 
-    const handleRegister = async (e) => {
-    };
+        const handleRegister = async (e) => {
+            e.preventDefault();
+
+            const params = {
+                username: username,
+                email: email,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+            };
+
+            try {
+                const response = await axios.post('http://localhost:8082/auth/register', params);
+                if (response.status === 200) {
+                    console.log("Registration successful");
+                    navigate('/login');
+                } else {
+                    setError('❌ Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                setError('❌ Registration error. Please try again.');
+            }
+        };
 
     return (
         <div className="col-md-4">
-            <div className="four columns">
-                <a href="#">
-                    <div className="content-box color-effect-1">
+            <div className="login-container">
+                <a href="#" className="login-link">
+                <div className="login-box">
                         {loginState === 'login' ? (
                             <div>
                                 <h3>Login</h3>
-                                <form onSubmit={handleLogin}>
+                                <form onSubmit={handleLogin} className={"login-form"}>
                                     <input
                                         type="text"
                                         placeholder="Username"
@@ -84,14 +108,13 @@ const Login = () => {
                                     />
                                     <button type="submit" className="btn-submit">Login</button>
                                 </form>
-                                {error && <p style={{ color: 'red' }}>{error}</p>}
-                                <p>Don't have an account? <a href="/register" onClick={() => setLoginState('register')}>Register here</a></p>
+                                {error && <p className="error-message">{error}</p>}
+                                <p>Don't have an account? <a href="#" onClick={() => setLoginState('register')}>Register here</a></p>
                             </div>
                         ) : (
                             <div>
                                 <h3>Register</h3>
-                                <form onSubmit={handleRegister}>
-                                    <input
+                                 <form onSubmit={handleRegister} className={"login-form"}>                                    <input
                                         type="text"
                                         placeholder="Username"
                                         value={username}
@@ -112,6 +135,21 @@ const Login = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         className="input-field"
                                     />
+                                     <input
+                                         type="text"
+                                         placeholder="First Name"
+                                         value={firstName}
+                                         onChange={(e) => setFirstName(e.target.value)}
+                                         className="input-field"
+                                     />
+                                     <input
+                                         type="text"
+                                         placeholder="Last Name"
+                                         value={lastName}
+                                         onChange={(e) => SetLastName(e.target.value)}
+                                         className="input-field"
+                                     />
+
                                     <button type="submit" className="btn-submit">Register</button>
                                 </form>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}

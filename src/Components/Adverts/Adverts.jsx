@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import ads from "../../Data/AdsData";
 import Advert from "./Advert";
-import {useNavigate} from "react-router-dom";
 
-export default function Adverts() {
+export default function Adverts(navPoint) {
 	const [adverts] = useState(ads);
-	const navigate = useNavigate()
 	return (
-		<div className="ads-container">
+		<div className="ads-container" id="Adverts">
 			{adverts.map((ad) => (
 				<Advert
 					key={ad.id}
@@ -15,6 +13,7 @@ export default function Adverts() {
 					adTitle={ad.title}
 					location={ad.location}
 					text={ad.text}
+					navigationPoint={"/browse"}
 				/>
 			))}
 		</div>

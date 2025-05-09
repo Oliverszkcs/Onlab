@@ -1,69 +1,150 @@
-.main-apartment {
-    padding: 50px 20px;
-    background-color: #f4f4f4;
-    text-align: center;
-}
-
-.apartment-heading {
-    font-size: 32px;
-    font-weight: bold;
-    color: #212f3d;
-    margin-bottom: 30px;
-}
-
-.apartments-container {
+.property-detail-card {
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 320px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.apartment-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.apartment-footer {
-    margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1000px;
-    margin: 40px auto;
-}
-
-.viewButton .apartment-btn,
-.home-button .apartment-btn {
-    padding: 12px 20px;
-    background-color: #212f3d;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.viewButton .apartment-btn:hover,
-.home-button .apartment-btn:hover {
-    background-color: #1c2631;
+.property-detail-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.home-button {
+.property-image-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.property-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.property-detail-image:hover {
+    transform: scale(1.05);
+}
+
+.property-location {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #212f3d, #34495e);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.property-location i {
+    color: #f1c40f;
+}
+
+.property-details {
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.property-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.property-price {
+    font-size: 1.2rem;
+    color: #27ae60;
+}
+
+.property-description {
+    font-size: 1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+.make-offer-container {
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 }
 
-.home-button .apartment-btn {
-    margin-left: 20px; /* Space between the two buttons */
+.make-offer-btn {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    width: 100%;
 }
 
-.home-button .apartment-btn {
-    background-color: #333;
+.make-offer-btn:hover {
+    background-color: #2980b9;
 }
 
-.home-button .apartment-btn:hover {
-    background-color: #444;
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+.offer-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.popup-actions button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #27ae60;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.close-popup-btn {
+    background-color: #e74c3c;
+}
+
+.property-detail-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 4rem 2rem;
+    background: #f8f9fa;
+    justify-items: center;
 }

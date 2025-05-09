@@ -315,6 +315,7 @@ button {
 
 .apartment-details {
   padding: 2rem 0;
+  max-width: max-content;
 }
 
 .apartment-detail {
@@ -1458,7 +1459,7 @@ footer {
     display: flex;
     flex-direction: column;
   }
-  /* responsive adverts */
+
   .advert {
     display: flex;
     flex-direction: column;

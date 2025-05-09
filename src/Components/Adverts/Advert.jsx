@@ -1,11 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import "../../css/advert.css"
 
-export default function Advert({ image, location, adTitle, text }) {
+export default function Advert({ image, location, adTitle, text ,navigationPoint}) {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
-		navigate("/browse");
+		navigate(navigationPoint);
+		console.log("navigationPoint", navigationPoint);
 	};
 
 	return (

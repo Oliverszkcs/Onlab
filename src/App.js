@@ -20,6 +20,7 @@ function App() {
                     <Route path="/upload" element={<PrivateRoute element={<Upload />} />} />
                     <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
                     <Route path="/property/:id" element={<ApartmentDetails />} />
+                    <Route path="*" element={<h1>This route is not set up</h1>} />
                 </Routes>
             </Router>
     );

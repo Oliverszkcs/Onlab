@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import formatCurrency from "../../utils";
 import "../../css/propertyDetail.css";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import Advert from "../Adverts/Advert";
+import OfferPopup from "../Offers/OfferPopup";
+import OffersListPopup from "../Offers/OfferListPopup";
 
 export default function PropertyDetail() {
     const { id } = useParams();
@@ -12,15 +15,33 @@ export default function PropertyDetail() {
     const [offerAmount, setOfferAmount] = useState(0.0);
     const navigate = useNavigate();
     const [userid, setUserId] = useState(null);
-    const token= sessionStorage.getItem("token");
-    const decodedToken = jwtDecode(token);
-    const email = decodedToken.email;
+    const token = sessionStorage.getItem("token") || null;
+    const [offers, setOffers] = useState([]);
+    const [isOwner, setIsOwner] = useState(false);
+    const [showOffers, setShowOffers] = useState(false);
+
+    let email = null;
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        email = decodedToken.email;
+    }
+
+    const getOwner = () => {
+        if (email === property?.owner?.email) {
+            setIsOwner(true);
+        }
+    };
 
     useEffect(() => {
         fetchProperty();
-        setShowPopUp(false);
         getUserId();
     }, []);
+
+    useEffect(() => {
+        if (property) {
+            getOwner();
+        }
+    }, [property]);
 
     const fetchProperty = async () => {
         try {
@@ -32,7 +53,6 @@ export default function PropertyDetail() {
         }
     };
 
-
     const getUserId = async () => {
         try {
             const response = await axios.get(`http://localhost:8082/users/getIdByEmail/${email}`);
@@ -41,11 +61,22 @@ export default function PropertyDetail() {
         } catch (error) {
             console.error("Error fetching user ID:", error);
         }
-    }
+    };
 
-    const createOffer = async () => {
+    const fetchOffers = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8082/offers/getByListing/${id}`);
+            setOffers(response.data);
+            console.log("Offers:", response.data);
+        } catch (error) {
+            console.error("Error fetching offers:", error);
+        }
+    };
+
+    const createOffer = async (e) => {
+        e.preventDefault();
         console.log("Creating offer with amount:", offerAmount);
-        if(!userid){
+        if (!userid) {
             navigate("/login");
             return;
         }
@@ -56,10 +87,21 @@ export default function PropertyDetail() {
                     listingId: id,
                     buyerId: userid,
                 }
-            })
+            });
             console.log("Offer created:", response.data);
+            setShowPopUp(false);
         } catch (error) {
-            console.error("Error creating offer:", error);}
+            console.error("Error creating offer:", error);
+        }
+    };
+
+    const handleMakeOffer = () => {
+        setShowPopUp(true);
+    };
+
+    const handleShowOffers = async () => {
+        await fetchOffers();
+        setShowOffers(true);
     };
 
     if (!property) {
@@ -71,59 +113,50 @@ export default function PropertyDetail() {
         );
     }
 
-    const handleMakeOffer = () => {
-        console.log("Make an offer button clicked");
-        setShowPopUp(true);
-    };
-
     return (
         <div className="property-detail-card">
             <div className="property-header">
                 <h2>{property.property.name}</h2>
                 <p className="price">{formatCurrency(property.targetPrice)}</p>
             </div>
-            <div className="property-image-container">
-                <img
-                    src={`http://localhost:9000/pictures/${property.images[0]?.url}`}
-                    alt={property.property.name}
-                    className="property-detail-image"
-                />
-            </div>
-            <div className="property-description">
-                <p><strong>Description:</strong> {property.description}</p>
-                <p><strong>Location:</strong> {property.property.location}</p>
-                <p><strong>Bedrooms:</strong> {property.property.bedroomNumber}</p>
-                <p><strong>Bathrooms:</strong> {property.property.bathroomNumber}</p>
-                <p><strong>Base Area:</strong> {property.property.minimumArea} m²</p>
-                <p><strong>Furnished:</strong> {property.property.furnished ? "Yes" : "No"}</p>
-                <p><strong>Property Type:</strong> {property.property.type}</p>
-            </div>
+
+            <Advert
+                image={`http://localhost:9000/pictures/${property.images[0]?.url}`}
+                location={property.property.location}
+                adTitle={property.property.name}
+                text={`Price: ${formatCurrency(property.targetPrice)} | Bedrooms: ${property.property.bedroomNumber} | Bathrooms: ${property.property.bathroomNumber}`}
+                onClick={() => console.log("Already on this property")}
+            />
+
             <div className="make-offer-container">
-                <button className="make-offer-btn" onClick={handleMakeOffer}>
-                    Make an Offer
-                </button>
+                {isOwner && token && (
+                    <button className="make-offer-btn" onClick={handleMakeOffer}>
+                        Make an Offer
+                    </button>
+                )}
+                {!isOwner && token && (
+                    <button className="make-offer-btn" onClick={handleShowOffers}>
+                        Respond to offer(s).
+                    </button>
+                )}
             </div>
+
+
             {showPopUp && (
-                <div className="popup-overlay">
-                    <div className="popup-content">
-                        <h3>Make Your Offer</h3>
-                        <form onSubmit={createOffer}>
-                            <div className="form-group">
-                                <label>Offer Amount</label>
-                                <input
-                                    type="number"
-                                    value={offerAmount}
-                                    onChange={(e) => setOfferAmount(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <button type="submit" className="make-offer-btn" >Submit Offer</button>
-                            <button className="close-popup-btn" onClick={() => setShowPopUp(false)}>Close</button>
-                        </form>
-                    </div>
-                </div>
+                <OfferPopup
+                    offerAmount={offerAmount}
+                    setOfferAmount={setOfferAmount}
+                    onSubmit={createOffer}
+                    onClose={() => setShowPopUp(false)}
+                />
+            )}
+
+            {showOffers && (
+                <OffersListPopup
+                    offers={offers}
+                    onClose={() => setShowOffers(false)}
+                />
             )}
         </div>
-
     );
 }

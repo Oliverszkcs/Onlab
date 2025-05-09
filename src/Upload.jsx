@@ -10,7 +10,7 @@ function UploadProperty() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
     const [bathroomNumber, setBathroomNumber] = useState("");
-    const [bedroomNumber, setBedroomNumber] = useState("");
+    const [bedroomNuamber, setBedroomNumber] = useState("");
     const [Area, setArea] = useState("");
     const [furnished, setFurnished] = useState(false);
     const [location, setLocation] = useState("");
@@ -41,7 +41,7 @@ function UploadProperty() {
         formData.append("file", file);
         formData.append("email", email);
         formData.append("bathroomNumber", bathroomNumber);
-        formData.append("bedroomNumber", bedroomNumber);
+        formData.append("bedroomNumber", bedroomNuamber);
         formData.append("minimumArea", Area);
         formData.append("furnished", furnished);
         formData.append("location", location);
@@ -64,6 +64,7 @@ function UploadProperty() {
     };
 
     return (
+        <div className="upload-page">
         <div className="upload-form">
             <h2>Upload Property</h2>
             <form onSubmit={handleSubmit}>
@@ -85,7 +86,7 @@ function UploadProperty() {
                 </div>
                 <div className="form-group">
                     <label>Bedrooms:</label>
-                    <input type="number" value={bedroomNumber} onChange={(e) => setBedroomNumber(e.target.value)} required />
+                    <input type="number" value={bedroomNuamber} onChange={(e) => setBedroomNumber(e.target.value)} required />
                 </div>
                 <div className="form-group">
                     <label>Area (m²):</label>
@@ -121,6 +122,7 @@ function UploadProperty() {
             {message && (
                 <p style={{ color: message.includes("❌") ? "red" : "green" }}>{message}</p>
             )}
+        </div>
         </div>
     );
 }

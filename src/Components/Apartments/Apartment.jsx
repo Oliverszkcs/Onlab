@@ -1,7 +1,6 @@
 import React from "react";
 import formatCurrency from "../../utils";
 import "../../css/apartment.css";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 export default function Apartment({
