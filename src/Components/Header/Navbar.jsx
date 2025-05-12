@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-scroll";
 import "../../css/navbar.css";
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar({ keycloak }) {
 	const menu = useState(true);
-
+	const navigate = useNavigate();
 
 	const isAuthenticated = sessionStorage.getItem("token");
 
 	return (
-
 		<nav className="navbar">
 			<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet"/>
 			<div className="logo">
@@ -37,16 +38,8 @@ export default function Navbar({ keycloak }) {
 						About
 					</Link>
 				</div>
-				<div className="nav-link">
-					<Link
-						to="Adverts"
-						spy={true}
-						smooth={true}
-						duration={2000}
-						delay={500}
-					>
-						Apartments
-					</Link>
+				<div className="nav-link" onClick={() => navigate("/browse")}>
+					Properties
 				</div>
 			</div>
 			<div className={menu ? "action-links" : "action-links action"}>

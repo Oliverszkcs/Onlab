@@ -59,7 +59,12 @@ export default function ApartmentBrowser() {
                                     image={`http://localhost:9000/pictures/${apartment.images[0]?.url}`}
                                     adTitle={apartment.property.name}
                                     price={apartment.targetPrice}
-                                    text={apartment.description + ` | Price: ${apartment.targetPrice} | Bedrooms: ${apartment.property.bedroomNumber} | Bathrooms: ${apartment.property.bathroomNumber}`}
+                                    text={`
+  ${apartment.description}   
+  | Price: ${apartment.targetPrice}  
+  | Bedrooms: ${apartment.property.bedroomNumber}  
+  | Bathrooms: ${apartment.property.bathroomNumber}
+`}
                                     location={apartment.property.location}
                                 />
                             </div>

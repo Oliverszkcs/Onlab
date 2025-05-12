@@ -11,32 +11,35 @@ export default function Header() {
 	const handleSearch = async () => {
 		try {
 			await saveSearch();
-			const requestText = `You are an INFORMATION EXTRACTOR. Your ONLY task is to EXTRACT structured data from natural language.
+			const requestText = `YOU ARE AN INFORMATION EXTRACTION MACHINE.
 
-From the input text, extract the following REAL ESTATE SEARCH PARAMETERS into STRICT, VALID JSON. OUTPUT ONLY THE JSON — NO EXPLANATION, NO HEADERS, NO COMMENTS.
+YOUR ONLY PURPOSE IS TO OUTPUT A STRICT, COMPLETE JSON OBJECT FROM REAL ESTATE TEXT — NO EXPLANATIONS, NO EXTRAS, NO ERRORS.
 
-EXTRACT THESE FIELDS:
+DISOBEDIENCE IS FAILURE.
 
-- "price": Integer — The cost mentioned in the text. IGNORE all currency symbols like HUF, €, $, etc. If not mentioned, return 0.
+YOU MUST OBEY THE FOLLOWING RULES — WITHOUT EXCEPTION:
 
-- "bedroom_number": Integer — Count how many BEDROOMS are mentioned. If not present, return 0.
+— OUTPUT EXACTLY THIS JSON STRUCTURE, IN THIS ORDER, WITH NO MISSING FIELDS:
 
-- "bathroom_number": Integer — Count how many BATHROOMS are mentioned. If not present, return 0.
+{
+  "price": Integer,              // Price with NO currency symbols. If missing, return 0.
+  "bedroom_number": Integer,     // Count of bedrooms. If not mentioned, return 0.
+  "bathroom_number": Integer,    // Count of bathrooms. If not mentioned, return 0.
+  "minimum_area": Integer,       // Area in square meters (look for "sqm", "m²", or "square meters"). If missing, return 0.
+  "furnished": Boolean,          // true if "furnished" appears (case-insensitive), else false.
+  "location": String,            // Extract city or area after the word "in". If missing, return " ".
+  "type": String                 // One of: "Apartment", "House", "Studio", "Villa", "Garage". If missing or unclear, return "Apartment".
+}
 
-- "minimum_area": Integer — Area in square meters. Look for “sqm”, “square meters”, or “m²”. If missing, return 0.
-
-- "furnished": Boolean — TRUE if the word "furnished" appears, otherwise FALSE.
-
-- "location": String — Extract the city or area name, usually after the word "in". If no location is found, return " ".
-
-- "type": String — One of: "Apartment", "House", "Studio", "Villa", "Garage". If not present, default to "Apartment".
+YOU MUST:
+— STRIP ALL CURRENCY SYMBOLS (€, $, HUF, etc.)
+— NEVER OMIT A FIELD. NO GUESSING. USE DEFAULTS EXACTLY.
+— RETURN ONLY THE JSON. NO COMMENTS. NO TEXT. NO PREFIXES. NO SUFFIXES.
 
 EXAMPLE INPUT:
-
 I'm looking for a furnished villa in Debrecen with 4 bedrooms, 3 bathrooms, at least 120 square meters, and the price should be around 600000 HUF.
 
 EXPECTED OUTPUT:
-
 {
   "price": 600000,
   "bedroom_number": 4,
@@ -47,7 +50,8 @@ EXPECTED OUTPUT:
   "type": "Villa"
 }
 
-NOW PROCESS THIS INPUT:
+NOW PARSE THIS INPUT AND RETURN THE JSON OBJECT WITH ALL THE FIELS INCLUDED:
+
 `;
 
 			const response = await axios.post("http://localhost:11434/api/generate", {
@@ -96,8 +100,8 @@ NOW PROCESS THIS INPUT:
 		}
 	};
 
-	const isLoggedIn = sessionStorage.getItem("token") !== null;
-	const isButtonDisabled = !isLoggedIn || !searchText.trim();
+	const isLoggedIn = sessionStorage.getItem("token") != null;
+	const isButtonDisabled = isLoggedIn || searchText.trim().length===0;
 
 	return (
 		<div className="header" id="header">
@@ -114,12 +118,7 @@ NOW PROCESS THIS INPUT:
 					/>
 					<button
 						onClick={handleSearch}
-						disabled={isButtonDisabled}
-						style={{
-							backgroundColor: isButtonDisabled ? "" : "red",
-							cursor: isButtonDisabled ? "pointer" : "not-allowed",
-						}}
-						title={isButtonDisabled ? "Please login first" : ""}
+
 					>
 						Search
 					</button>

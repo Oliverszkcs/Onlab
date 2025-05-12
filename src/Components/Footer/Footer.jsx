@@ -1,5 +1,26 @@
 import "../../css/footer.css";
+import { useState } from "react";
+import axios from "axios";
+
+
 export default function Footer() {
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+
+	const subscribe = async () => {
+		try {
+			const response = await axios.post("http://localhost:8082/news/subscribe", {
+				email: email,
+			});
+			console.log("Subscribed successfully");
+			setMessage("Successfully subscribed to the newsletter!");
+		} catch (error) {
+			console.error("Error subscribing to newsletter:", error);
+			setMessage("Failed to subscribe. Please try again.");
+		}
+	};
+
+
 	return (
 		<div className="footer" id="contacts">
 			<header>
@@ -11,8 +32,8 @@ export default function Footer() {
 				</div>
 				<div>
 					<div className="newsletter">
-						<input type="text" placeholder="Your Email Address" />
-						<button>
+						<input type="text" placeholder="Your Email Address" value={email} onChange={(e) => setEmail(e.target.value)} />
+						<button onClick={subscribe}>
 							<i
 								class="fa fa-long-arrow-right"
 								aria-hidden="true"
@@ -20,6 +41,7 @@ export default function Footer() {
 							Send in
 						</button>
 					</div>
+					{message && <p className="subscription-message">{message}</p>}
 				</div>
 			</header>
 			<span className="footer-line"></span>

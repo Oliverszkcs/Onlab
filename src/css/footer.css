@@ -116,3 +116,12 @@
 .copyright a:hover {
     text-decoration: underline;
 }
+.subscription-message {
+    margin-top: 10px;
+    color: green;
+    font-size: 0.9rem;
+}
+
+.subscription-message.error {
+    color: red;
+}
