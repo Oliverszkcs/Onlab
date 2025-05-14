@@ -19,7 +19,7 @@ class FileController(
 ) {
 
     @PostMapping("/upload")
-    fun uploadFile(@RequestParam("file") file: MultipartFile,
+    fun uploadFile(@RequestParam("files") files: List<MultipartFile>,
                    @RequestParam("name") name: String,
                    @RequestParam("description") description: String,
                    @RequestParam("price") price: Float,
@@ -33,15 +33,14 @@ class FileController(
                    ): ResponseEntity<String>
     {
         return try {
-            if (file != null) {
-                println("Received file: ${file.originalFilename}, Size: ${file.size} bytes")
-                println("Description: $description")
-            };
-            if (file == null || file.isEmpty) {
+            println("Files: $files")
+            println("Description: $description")
+            ;
+            if (files.isEmpty()) {
                 ResponseEntity.badRequest().body("File is empty or missing")
             } else {
-                val response: String = minioService.uploadFile(file)
-                userService.createListing(email,name,description,price,file,bathroomNumber,bedroomNumber,minimumArea,furnished,location,type)
+                val response: String = minioService.uploadFiles(files)
+                userService.createListing(email,name,description,price,files,bathroomNumber,bedroomNumber,minimumArea,furnished,location,type)
 
                 ResponseEntity.ok(response)
             }
@@ -50,6 +49,7 @@ class FileController(
             ResponseEntity.badRequest().body("Upload failed: ${e.message}")
         }
     }
+
     @PostMapping("/download")
     fun downloadFile(@RequestParam("filename") filename: String): ResponseEntity<ByteArray> {
         return try {

@@ -20,7 +20,7 @@ open class Offer {
     @JoinColumn(name = "buyer_id", nullable = false)
     var buyer: User? = null
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "listing_id", nullable = false)
     var listing: Listing? = null

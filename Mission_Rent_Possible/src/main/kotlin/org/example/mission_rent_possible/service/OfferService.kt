@@ -28,6 +28,10 @@ class OfferService(private val offerRepository: OfferRepo) {
         offerRepository.save(offer)
     }
 
+    fun getOfferByBuyerEmail(buyerEmail: String): List<Offer> {
+        return offerRepository.findAll().filter { it.buyer?.getEmail() == buyerEmail }
+    }
+
     fun saveOfferStatusChange(offerId: Long, status: String){
         offerRepository.findById(offerId).get().status=(OfferStatus.valueOf(status))
         offerRepository.save(offerRepository.findById(offerId).get())

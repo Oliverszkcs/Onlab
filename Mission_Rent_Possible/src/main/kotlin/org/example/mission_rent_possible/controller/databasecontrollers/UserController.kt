@@ -55,7 +55,7 @@ class UserController(private val userService: UserService ) {
         @RequestParam("name") name: String,
         @RequestParam("description") description: String,
         @RequestParam("price") price: Float,
-        @RequestParam("file") file: MultipartFile,
+        @RequestParam("files") files: List<MultipartFile>,
         @RequestParam("bathroomNumber") bathroomNumber: Int,
         @RequestParam("bedroomNumber")bedroomNumber: Int,
         @RequestParam("minimumArea")minimumArea: Int,
@@ -63,7 +63,7 @@ class UserController(private val userService: UserService ) {
         @RequestParam("location")location: String,
         @RequestParam("type")type: propertyType
     ) {
-        userService.createListing(email, name, description, price, file,
+        userService.createListing(email, name, description, price, files,
             bathroomNumber, bedroomNumber, minimumArea, furnished, location, type)
     }
     @GetMapping("/getCount")

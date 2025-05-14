@@ -56,7 +56,7 @@ class UserService(
                       propertyName: String,
                       description: String,
                       targetPrice: Float,
-                      file: MultipartFile,
+                      files: List<MultipartFile>,
                       bathroomNumber: Int,
                       bedroomNumber: Int,
                       minimumArea: Int,
@@ -65,16 +65,18 @@ class UserService(
                       type: propertyType
                       ) {
         val user = userRepository.findByEmail(email)
-        if (user != null && !file.isEmpty) {
+        if (user != null && files.isNotEmpty()) {
             val property = Property(user,propertyName, bathroomNumber,bedroomNumber,minimumArea,furnished,location,type)
             propertyService.saveProperty(property)
 
             val listing = Listing(description, targetPrice, user, property)
             listingService.saveListing(listing)
 
-            val fileUrl = fileStorageService.uploadFile(file)
-            val picture = Picture(fileUrl, user, listing)
-            pictureRepo.save(picture)
+            files.forEach { file ->
+                val fileUrl = fileStorageService.uploadFile(file)
+                val picture = Picture(fileUrl, user, listing)
+                pictureRepo.save(picture)
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package org.example.mission_rent_possible.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.bouncycastle.asn1.x500.style.RFC4519Style.title
 import java.sql.Timestamp
@@ -15,7 +16,6 @@ class Listing {
     private var targetPrice: Float? = null
     private var createdAt: Timestamp? = Timestamp(System.currentTimeMillis())
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     var listingOwner: User? = null
@@ -29,6 +29,7 @@ class Listing {
     @JoinColumn(name = "property_id", nullable = false, unique = true)
     var property: Property? = null
 
+    @JsonIgnore
     @OneToMany(mappedBy = "listing", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var offers: MutableList<Offer> = mutableListOf()
 

@@ -16,13 +16,14 @@ interface ListingRepo: JpaRepository<Listing, Long> {
     SELECT l
     FROM listing l
     WHERE 
-      (:price IS NULL OR l.targetPrice >= :price) OR
-      (:bathrooms IS NULL OR l.property.bathroomNumber >= :bathrooms) OR
-      (:bedrooms IS NULL OR l.property.bedroomNumber >= :bedrooms) OR
-      (:minimumArea IS NULL OR l.property.minimumArea >= :minimumArea) OR
-      (:furnished IS NULL OR l.property.furnished = :furnished) OR
-      (:type IS NULL OR l.property.type = :type) OR
-      (:city IS NULL OR LOWER(l.property.location) LIKE LOWER(CONCAT('%', :city, '%')))
+  (:price IS NULL OR l.targetPrice >= :price) AND
+  (:bathrooms IS NULL OR l.property.bathroomNumber >= :bathrooms) AND
+  (:bedrooms IS NULL OR l.property.bedroomNumber >= :bedrooms) AND
+  (:minimumArea IS NULL OR l.property.minimumArea >= :minimumArea) AND
+  (:furnished IS NULL OR l.property.furnished = :furnished) AND
+  (:type IS NULL OR l.property.type = :type) AND
+  (:city IS NULL OR LOWER(l.property.location) LIKE LOWER(CONCAT('%', :city, '%')))
+
     ORDER BY
       CASE WHEN :price IS NOT NULL AND l.targetPrice >= :price THEN 1 ELSE 0 END +
       CASE WHEN :bathrooms IS NOT NULL AND l.property.bathroomNumber >= :bathrooms THEN 1 ELSE 0 END +

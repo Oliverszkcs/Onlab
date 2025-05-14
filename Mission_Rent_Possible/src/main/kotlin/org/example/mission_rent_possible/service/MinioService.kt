@@ -27,6 +27,16 @@ class MinioService(
     }
 
     @Throws(Exception::class)
+    fun uploadFiles(files: List<MultipartFile>): String {
+        val fileNames = mutableListOf<String>()
+        for (file in files) {
+            fileNames.add(uploadFile(file))
+            println("📂 Debug: file = ${file.originalFilename}, size = ${file.size}")
+        }
+        return fileNames.joinToString(", ")
+    }
+
+    @Throws(Exception::class)
     fun downloadFile(filename: String): ByteArray {
         return minioClient.getObject(
             io.minio.GetObjectArgs.builder()

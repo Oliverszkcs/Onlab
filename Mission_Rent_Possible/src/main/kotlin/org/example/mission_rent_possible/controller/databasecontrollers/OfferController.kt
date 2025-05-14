@@ -57,4 +57,9 @@ class OfferController(
     fun getOffersByListingId(@PathVariable("id") listingId: Long): List<Offer> {
         return offerService.getOfferByListingOwner(listingId)
     }
+
+    @GetMapping("/getByBuyer/{email}")
+    fun getOfferByBuyerEmail(@PathVariable("email") buyerEmail: String): List<Offer> {
+        return offerService.getOfferByBuyerEmail(buyerEmail)
+    }
 }
