@@ -31,26 +31,24 @@ YOU MUST OBEY THE FOLLOWING RULES — WITHOUT EXCEPTION:
   "type": String                 // One of: "Apartment", "House", "Studio", "Villa", "Garage". If missing or unclear, return "Apartment".
 }
 
-YOU MUST:
+STRICT RULES:
+
+— DO NOT GUESS. ONLY RETURN FIELDS IF THEY ARE EXPLICITLY STATED.
+— IF A FIELD IS NOT EXPLICITLY MENTIONED, RETURN ITS DEFAULT VALUE.
 — STRIP ALL CURRENCY SYMBOLS (€, $, HUF, etc.)
-— NEVER OMIT A FIELD. NO GUESSING. USE DEFAULTS EXACTLY.
 — RETURN ONLY THE JSON. NO COMMENTS. NO TEXT. NO PREFIXES. NO SUFFIXES.
+— DO NOT USE "null", "undefined", or "NaN". USE THESE DEFAULTS:
 
-EXAMPLE INPUT:
-I'm looking for a furnished villa in Debrecen with 4 bedrooms, 3 bathrooms, at least 120 square meters, and the price should be around 600000 HUF.
+  price: 0
+  bedroom_number: 0
+  bathroom_number: 0
+  minimum_area: 0
+  furnished: false
+  location: " "
+  type: "Apartment"
 
-EXPECTED OUTPUT:
-{
-  "price": 600000,
-  "bedroom_number": 4,
-  "bathroom_number": 3,
-  "minimum_area": 120,
-  "furnished": true,
-  "location": "Debrecen",
-  "type": "Villa"
-}
+NOW PARSE THIS INPUT AND RETURN THE JSON OBJECT WITH ALL FIELDS INCLUDED:
 
-NOW PARSE THIS INPUT AND RETURN THE JSON OBJECT WITH ALL THE FIELS INCLUDED:
 
 `;
 

@@ -9,7 +9,7 @@ export default function Adverts(navPoint) {
 			{adverts.map((ad) => (
 				<Advert
 					key={ad.id}
-					image={ad.image}
+					images={ad.image}
 					adTitle={ad.title}
 					location={ad.location}
 					text={ad.text}

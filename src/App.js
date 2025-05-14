@@ -15,8 +15,6 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<Home />} />
                     <Route path="/browse" element={<ApartmentBrowser />} />
-
-
                     <Route path="/upload" element={<PrivateRoute element={<Upload />} />} />
                     <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
                     <Route path="/property/:id" element={<ApartmentDetails />} />

@@ -8,6 +8,7 @@ import Advert from "../Adverts/Advert";
 import OfferPopup from "../Offers/OfferPopup";
 import OffersListPopup from "../Offers/OfferListPopup";
 
+
 export default function PropertyDetail() {
     const { id } = useParams();
     const [property, setProperty] = useState(null);
@@ -27,7 +28,8 @@ export default function PropertyDetail() {
     }
 
     const getOwner = () => {
-        if (email === property?.owner?.email) {
+        console.log("Property owner email:", property.listingOwner.email);
+        if (email === property.listingOwner.email) {
             setIsOwner(true);
         }
     };
@@ -120,8 +122,9 @@ export default function PropertyDetail() {
                 <p className="price">{formatCurrency(property.targetPrice)}</p>
             </div>
 
+
             <Advert
-                image={`http://localhost:9000/pictures/${property.images[0]?.url}`}
+                images={property.images.map(img => `http://localhost:9000/pictures/${img.url}`)}
                 location={property.property.location}
                 adTitle={property.property.name}
                 text={`Price: ${formatCurrency(property.targetPrice)} | Bedrooms: ${property.property.bedroomNumber} | Bathrooms: ${property.property.bathroomNumber}`}
@@ -129,12 +132,12 @@ export default function PropertyDetail() {
             />
 
             <div className="make-offer-container">
-                {isOwner && token && (
+                {!isOwner && token && (
                     <button className="make-offer-btn" onClick={handleMakeOffer}>
                         Make an Offer
                     </button>
                 )}
-                {!isOwner && token && (
+                {isOwner && token && (
                     <button className="make-offer-btn" onClick={handleShowOffers}>
                         Respond to offer(s).
                     </button>

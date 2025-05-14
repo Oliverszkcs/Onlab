@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/apatments.css";
 import "../../css/apartmentBrowser.css";
 import Advert from "../Adverts/Advert";
+import Navbar from "../Header/Navbar";
 
 export default function ApartmentBrowser() {
     const [apartments, setApartments] = useState([]);
@@ -33,6 +34,7 @@ export default function ApartmentBrowser() {
 
     return (
         <div className="main-apartment" id="apartments">
+            <Navbar className="navbar"/>
             <p className="apartment-heading">
                 More Than 500+ <br /> Apartments For Rent/Sale
             </p>
@@ -56,14 +58,14 @@ export default function ApartmentBrowser() {
                             >
                                 <Advert
                                     id={apartment.id}
-                                    image={`http://localhost:9000/pictures/${apartment.images[0]?.url}`}
+                                    images={`http://localhost:9000/pictures/${apartment.images[0]?.url}`}
                                     adTitle={apartment.property.name}
                                     price={apartment.targetPrice}
                                     text={`
-  ${apartment.description}   
-  | Price: ${apartment.targetPrice}  
-  | Bedrooms: ${apartment.property.bedroomNumber}  
-  | Bathrooms: ${apartment.property.bathroomNumber}
+                                      ${apartment.description}   
+                                       Price: ${apartment.targetPrice}  
+                                       Bedrooms: ${apartment.property.bedroomNumber}  
+                                       Bathrooms: ${apartment.property.bathroomNumber}
 `}
                                     location={apartment.property.location}
                                 />

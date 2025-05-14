@@ -11,6 +11,9 @@
     background-repeat: no-repeat;
 }
 
+*{
+    text-decoration: none;
+}
 .login-box {
     background-color: #1c2631;
     padding: 30px 25px;

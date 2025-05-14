@@ -1,13 +1,48 @@
 import React, { useState } from "react";
-import { Link } from "react-scroll";
+import {Link, scroller} from "react-scroll";
 import "../../css/navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 export default function Navbar({ keycloak }) {
 	const menu = useState(true);
 	const navigate = useNavigate();
-
+	const location = useLocation();
 	const isAuthenticated = sessionStorage.getItem("token");
+
+
+	const handleHomeClick = () => {
+		if (location.pathname !== "/") {
+			navigate("/");
+		} else {
+			scroller.scrollTo("header", {
+				smooth: true,
+				duration: 2000,
+				delay: 500,
+			});
+		}
+	};
+	const handleAboutClick = () => {
+		if (location.pathname !== "/") {
+			navigate("/");
+			setTimeout(() => {
+				scroller.scrollTo("about", {
+					smooth: true,
+					duration: 2000,
+					delay: 500,
+				});
+			}, 500);
+		} else {
+			scroller.scrollTo("about", {
+				smooth: true,
+				duration: 2000,
+				delay: 500,
+			});
+		}
+	};
+
+
 
 	return (
 		<nav className="navbar">
@@ -17,26 +52,14 @@ export default function Navbar({ keycloak }) {
 			</div>
 			<div className={menu ? "nav-links" : "nav-links show"}>
 				<div className="nav-link">
-					<Link
-						to="header"
-						spy={true}
-						smooth={true}
-						duration={2000}
-						delay={500}
-					>
+					<div onClick={handleHomeClick}>
 						Home
-					</Link>
+					</div>
 				</div>
 				<div className="nav-link">
-					<Link
-						to="about"
-						spy={true}
-						smooth={true}
-						duration={2000}
-						delay={500}
-					>
+					<div onClick={handleAboutClick}>
 						About
-					</Link>
+					</div>
 				</div>
 				<div className="nav-link" onClick={() => navigate("/browse")}>
 					Properties

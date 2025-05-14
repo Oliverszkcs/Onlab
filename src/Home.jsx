@@ -9,10 +9,10 @@ function Home() {
 
     return (
         <>
-            <Navbar />
+            <Navbar/>
             <Header />
             <Adverts navPoint={"/browse"}/>
-            <About />
+            <About  />
             <Footer />
         </>
     );

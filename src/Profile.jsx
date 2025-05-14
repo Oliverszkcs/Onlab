@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./profile.css";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Advert from "./Components/Adverts/Advert";
 import "./css/advert.css";
+import Navbar from "./Components/Header/Navbar";
+import { useNavigate } from "react-router-dom";
+import { FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const Profile = () => {
     const [pictureName, setPictureName] = useState(null);
     const [listings, setListings] = useState([]);
-
+    const [offers, setOffers] = useState([]);
+    const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const username = decodedToken.preferred_username || decodedToken.sub;
@@ -18,7 +21,8 @@ const Profile = () => {
     useEffect(() => {
         fetchPictures();
         fetchListings();
-    },[] );
+        fetchOffers();
+    }, []);
 
     const fetchPictures = async () => {
         try {
@@ -26,37 +30,38 @@ const Profile = () => {
                 .then((response) => {
                     setPictureName(response.data);
                 })
-                .catch((error) => {
-                    console.error("Error fetching image", error);
+                .catch(() => {
+                    setPictureName("profile.png");
                 });
-        } catch (error) {
-            console.error("Error fetching image", error);
+        } catch {
+            setPictureName("profile.png");
         }
+    };
+
+    const fetchOffers = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8082/offers/getByBuyer/${email}`);
+            setOffers(response.data);
+        } catch {}
     };
 
     const fetchListings = async () => {
         try {
             const response = await axios.get(`http://localhost:8082/listings/getByEmail/${email}`);
             setListings(response.data);
-            console.log("Fetched listings:", response.data);
-        } catch (error) {
-            console.error("Error fetching listings:", error);
-        }
+        } catch {}
     };
 
     return (
         <div className="profile-container">
-            <div className="profile-header">
+            <Navbar />
+            <div className="profile-section">
                 <div className="profile-picture">
-                    {pictureName ? (
-                        <img
-                            src={`http://localhost:9000/pictures/${pictureName}`}
-                            alt="Profile"
-                            className="profile-image"
-                        />
-                    ) : (
-                        <i className="fa fa-user"></i>
-                    )}
+                    <img
+                        src={`http://localhost:9000/pictures/${pictureName}`}
+                        alt="Profile"
+                        className="profile-image"
+                    />
                 </div>
                 <div className="profile-info">
                     <h2>{username}</h2>
@@ -65,36 +70,69 @@ const Profile = () => {
                         className="logout-btn"
                         onClick={() => {
                             sessionStorage.removeItem("token");
-                            window.location.href = "/";
+                            navigate("/");
                         }}
                     >
                         Logout
                     </button>
                 </div>
             </div>
-            <div className="profile-listings">
-                <h3>My Listings</h3>
-                <div className="listing-container">
-                    {listings.map((listing) => (
-                        <Advert
-                            key={listing.id}
-                            image={`http://localhost:9000/pictures/${listing.images[0]?.url}`}
-                            location={listing.property.location}
-                            adTitle={listing.property.name}
-                            text={`
-                                Offers: ${listing.offers.length}
-                                \nPrice: ${listing.targetPrice} 
-                                Bedrooms: ${listing.property.bedroomNumber} 
-                                Bathrooms: ${listing.property.bathroomNumber}
-                            `}
-                            navigationPoint={`/property/${listing.id}`}
-                        >
-                        </Advert>
-                    ))}
+
+            <div className="profile-top">
+                <div className="offers-section">
+                    <h3>Offers</h3>
+                    <div className="offers-list">
+                        {offers.map((offer) => {
+                            let icon;
+                            switch (offer.status) {
+                                case "PENDING":
+                                    icon = <FaClock className="offer-status-icon" color="#f1c40f" />;
+                                    break;
+                                case "ACCEPTED":
+                                    icon = <FaCheckCircle className="offer-status-icon" color="#2ecc71" />;
+                                    break;
+                                case "REJECTED":
+                                    icon = <FaTimesCircle className="offer-status-icon" color="#e74c3c" />;
+                                    break;
+                                default:
+                                    icon = null;
+                            }
+
+                            return (
+                                <div key={offer.id} className="offer-item">
+                                    {icon}
+                                    <div>
+                                        <p><strong>{offer.listing.property.name}</strong></p>
+                                        <p>Price: {offer.offeredPrice}</p>
+                                        <p>Status: {offer.status}</p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="listings-section">
+                    <h3>My Listings</h3>
+                    <div className="listing-container">
+                        {listings.map((listing) => (
+                            <Advert
+                                key={listing.id}
+                                images={`http://localhost:9000/pictures/${listing.images[0]?.url}`}
+                                location={listing.property.location}
+                                adTitle={listing.property.name}
+                                text={`Offers: ${offers.length}
+                            Price: ${listing.targetPrice}
+                            Bedrooms: ${listing.property.bedroomNumber}
+                            Bathrooms: ${listing.property.bathroomNumber}`}
+                                navigationPoint={`/property/${listing.id}`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default Profile;

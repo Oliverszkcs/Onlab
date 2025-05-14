@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./upload.css";
 import { jwtDecode } from "jwt-decode";
+import Navbar from "./Components/Header/Navbar";
 
 function UploadProperty() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
     const [message, setMessage] = useState("");
     const [bathroomNumber, setBathroomNumber] = useState("");
     const [bedroomNuamber, setBedroomNumber] = useState("");
@@ -21,15 +22,16 @@ function UploadProperty() {
     const email = decodedToken.email;
 
     const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
-        setFile(selectedFile);
-        console.log("File selected:", selectedFile);
+        const selectedFiles = Array.from(event.target.files);
+        setFiles(selectedFiles);
+        console.log("Files selected:", selectedFiles);
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!file) {
+        if (!files) {
             setMessage("❌ Please select an image!");
             return;
         }
@@ -38,7 +40,9 @@ function UploadProperty() {
         formData.append("name", name);
         formData.append("description", description);
         formData.append("price", price);
-        formData.append("file", file);
+        files.forEach((file) => {
+            formData.append("files", file);
+        });
         formData.append("email", email);
         formData.append("bathroomNumber", bathroomNumber);
         formData.append("bedroomNumber", bedroomNuamber);
@@ -65,6 +69,7 @@ function UploadProperty() {
 
     return (
         <div className="upload-page">
+            <Navbar />
         <div className="upload-form">
             <h2>Upload Property</h2>
             <form onSubmit={handleSubmit}>
@@ -115,7 +120,7 @@ function UploadProperty() {
                 </div>
                 <div className="form-group">
                     <label>Upload Image:</label>
-                    <input type="file" accept="image/*" onChange={handleFileChange} required />
+                    <input type="file" accept="image/*" multiple onChange={handleFileChange} required />
                 </div>
                 <button type="submit">Upload</button>
             </form>

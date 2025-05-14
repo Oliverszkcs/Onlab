@@ -34,7 +34,7 @@ export default function About() {
 	return (
 		<div className="about" id="about">
 			<div className="company">
-				<p className="heading">Our Company's Statistics</p>
+				<p className="heading">About</p>
 				<p>
 					Finding the right property can be a challenging and time-consuming process, whether you're looking to buy or rent. Our platform aims to simplify this search by bringing together a wide range of properties in one place. Developed as part of my school project, this web app provides an easy-to-use solution for both property seekers and owners, making it easier than ever to find, list, and manage properties for sale or rent.
 
